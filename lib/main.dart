@@ -10,11 +10,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: const MainPage(),
       theme: ThemeData(
         fontFamily: 'HelloHeadline',
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MainPage(),
+      darkTheme: ThemeData(
+        canvasColor: Colors.teal.shade700,
+        fontFamily: 'HelloHeadline',
+        primarySwatch: Colors.teal,
+        scaffoldBackgroundColor: Colors.blueGrey.shade900,
+        colorScheme: ColorScheme(
+          brightness: Brightness.dark,
+          primary: Colors.teal,
+          onPrimary: Colors.white,
+          secondary: Colors.teal.shade600,
+          onSecondary: Colors.white,
+          error: Colors.redAccent.shade700,
+          onError: Colors.white,
+          background: Colors.blueGrey.shade900,
+          onBackground: Colors.white,
+          surface: Colors.teal,
+          onSurface: Colors.white,
+        ),
+      ),
     );
   }
 }
@@ -37,14 +56,12 @@ class _MainPageState extends State<MainPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          
           showModalBottomSheet(
               context: context,
-              backgroundColor: Colors.blueGrey.shade800,
-              shape: const BeveledRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
               ),
               builder: (BuildContext context) {
