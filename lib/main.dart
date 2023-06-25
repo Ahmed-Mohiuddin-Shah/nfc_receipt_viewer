@@ -98,7 +98,7 @@ String parseResult() {
 void _tagRead(BuildContext context) {
   NfcManager.instance.startSession(
     onDiscovered: (NfcTag tag) async {
-      result.value = tag.data;
+      result.value = tag.data[0];
       NfcManager.instance.stopSession();
       Navigator.pop(context);
     },
