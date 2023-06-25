@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_receipt_viewer/read_tag.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,8 +47,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentPage = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,12 +64,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               builder: (BuildContext context) {
-                return const SizedBox(
-                  height: 200,
-                  child: Center(
-                    child: Text('Scanning...'),
-                  ),
-                );
+                return const ReadTag();
               }).whenComplete(() {});
         },
         child: const Icon(Icons.nfc_rounded),
