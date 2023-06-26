@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class DisplayTag extends StatefulWidget {
-  const DisplayTag({super.key});
+  var txt = "";
+  DisplayTag({Key? myKey, required this.txt}) : super(key: myKey);
 
   @override
   State<DisplayTag> createState() => _DisplayTagState();
@@ -18,6 +20,7 @@ class _DisplayTagState extends State<DisplayTag> {
         onPressed: () {},
         child: const Icon(Icons.save_rounded),
       ),
+      body: Text(widget.txt),
     );
   }
 }

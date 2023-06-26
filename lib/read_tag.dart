@@ -16,10 +16,10 @@ class _ReadTagState extends State<ReadTag> {
   Widget build(BuildContext context) {
     _tagRead(context);
 
-    return SizedBox(
+    return const SizedBox(
       height: 200,
       child: Center(
-        child: Text("Scanning...\n${parseResult()}"),
+        child: Text("Scanning..."),
       ),
     );
   }
@@ -34,7 +34,7 @@ void _tagRead(BuildContext context) {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return const DisplayTag();
+            return DisplayTag(txt: parseResult());
           },
         ),
       );
