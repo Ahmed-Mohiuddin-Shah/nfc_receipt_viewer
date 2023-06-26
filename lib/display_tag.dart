@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:nfc_receipt_viewer/read_tag.dart';
 
 class DisplayTag extends StatefulWidget {
   final NfcTag tag;
