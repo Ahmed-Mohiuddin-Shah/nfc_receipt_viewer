@@ -1,8 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/display_tag.dart';
-
-ValueNotifier<dynamic> result = ValueNotifier("");
 
 class ReadTag extends StatefulWidget {
   const ReadTag({super.key});
@@ -28,36 +27,19 @@ class _ReadTagState extends State<ReadTag> {
 void _tagRead(BuildContext context) {
   NfcManager.instance.startSession(
     onDiscovered: (NfcTag tag) async {
-      result.value = tag.data;
-      NfcManager.instance.stopSession();
       Navigator.pop(context);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return DisplayTag(txt: parseResult());
+            return DisplayTag(tag: tag);
           },
         ),
       );
+      NfcManager.instance.stopSession();
     },
     onError: (error) {
       Navigator.pop(context);
       return Future(() => null);
     },
   );
-}
-
-String parseResult() {
-  // List<String> stringList = result
-  //     .toString()
-  //     .split('payload:')[1]
-  //     .split('}')[0]
-  //     .split('[')[1]
-  //     .split(']')[0]
-  //     .split(', ');
-  // String string = '';
-  // for (var element in stringList) {
-  //   string += element;
-  // }
-
-  return result.toString();
 }
