@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Afaan'),
+        title: const Text('NFC Receipt Viewer'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
