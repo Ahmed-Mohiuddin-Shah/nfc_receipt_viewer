@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_receipt_viewer/ndef_record.dart';
 
 class DisplayTag extends StatefulWidget {
   final NfcTag tag;
@@ -30,32 +32,36 @@ class _DisplayTagState extends State<DisplayTag> {
         ));
   }
 
-  String parseResult() {
+  void parseResult() {
     tech = Ndef.from(widget.tag);
     if (tech is Ndef && tech != null) {
       final cachedMessage = tech!.cachedMessage;
       for (var i in Iterable.generate(cachedMessage!.records.length)) {
-        String base64String =
-            const Utf8Decoder().convert(cachedMessage.records[i].payload);
+        final record = cachedMessage.records[i];
+        final info = NdefRecordInfo.fromNdef(record);
+        Uint8List bytesImage;
+        String imgString = info.subtitle.split(") ")[1];
+        bytesImage = const Base64Decoder().convert(imgString);
+
+        Image.memory(bytesImage);
         ndefWidgets.add(
-          Text(base64String),
+          Center(
+            child: Image.memory(bytesImage),
+          ),
         );
       }
     }
+  }
 
-    List<String> stringList = widget.tag.data
-        .toString()
-        .toString()
-        .split('payload:')[1]
-        .split('}')[0]
-        .split('[')[1]
-        .split(']')[0]
-        .split(', ');
-    String string = '';
-    for (var element in stringList) {
-      string += element;
-    }
+  Image imageFromBase64String(String base64String) {
+    return Image.memory(base64Decode(base64String));
+  }
 
-    return string;
+  Uint8List dataFromBase64String(String base64String) {
+    return base64Decode(base64String);
+  }
+
+  String base64String(Uint8List data) {
+    return base64Encode(data);
   }
 }
