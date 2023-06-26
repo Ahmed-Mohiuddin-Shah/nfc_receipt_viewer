@@ -16,6 +16,5 @@ class _ReadTagState extends State<ReadTag> {
         child: Text('Scanning...'),
       ),
     );
-    ;
   }
 }
