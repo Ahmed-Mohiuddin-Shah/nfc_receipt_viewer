@@ -16,10 +16,11 @@ class InvalidTag extends StatelessWidget {
           title: const Text("Invalid Tag Format!\nPlease Cormat Correctly!"),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back_ios_new_rounded))
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            )
           ],
         ),
       ),

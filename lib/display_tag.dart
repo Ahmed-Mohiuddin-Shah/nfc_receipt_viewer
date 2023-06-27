@@ -106,17 +106,31 @@ class _DisplayTagState extends State<DisplayTag> {
 
           ndefWidgets.add(
             FittedBox(
-              child: DataTable(columns: const <DataColumn>[
-                DataColumn(label: Text("Product Name")),
-                DataColumn(label: Text("Qty")),
-                DataColumn(label: Text("Unit Price")),
-                DataColumn(label: Text("Total")),
-              ], rows: rowsList),
+              child: DataTable(
+                  showCheckboxColumn: true,
+                  border: TableBorder.all(),
+                  columns: const <DataColumn>[
+                    DataColumn(label: Text("Product Name")),
+                    DataColumn(label: Text("Qty")),
+                    DataColumn(label: Text("Unit Price")),
+                    DataColumn(label: Text("Total")),
+                  ],
+                  rows: rowsList),
             ),
           );
         }
         recordNum++;
       }
     }
+  }
+
+  double getTotalFromProductsInfo(List productInfoList) {
+    double total = 0;
+    for (var element in productEntries) {
+      List<String> productInfo = element.split("/");
+      total += (double.tryParse(productInfo[2]) ?? 0) *
+          (double.tryParse(productInfo[1]) ?? 0);
+    }
+    return total;
   }
 }
