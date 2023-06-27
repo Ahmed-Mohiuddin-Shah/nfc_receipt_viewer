@@ -8,9 +8,9 @@ MFRC522 mfrc522(CS_PIN, 9); // Create MFRC522 instance
 NfcAdapter nfc = NfcAdapter(&mfrc522);
 
 char imageBase64[] = "Qk1+AAAAAAAAAD4AAAAoAAAAEAAAABAAAAABAAEAAAAAAEAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD//wAAwH8AALw/AAC+HwAAnc8AAIxPAACIVwAAv9MAAL/TAAC/iwAA3CcAAMBHAADDrQAA4EMAAP33AAD//wAA";
-char superMarketName[32] = "Client's SuperMarket";
-char customerName[32] = "Client's Name";
-char receiptID[16] = "aaaaaaaaaaaaaaaa";
+String superMarketName = "Client's SuperMarket";
+String customerName = "Client's Name";
+String receiptID = "aaaaaaaaaaaaaaaa";
 
 char entries[][41] = {
     "Logitech Mouse/2/5000",
@@ -52,12 +52,7 @@ void loop()
 
 String combineData()
 {
-  String tempString = "";
-  tempString.concat(superMarketName);
-  tempString.concat("#");
-  tempString.concat(customerName);
-  tempString.concat("#");
-  tempString.concat(receiptID);
+  String tempString = superMarketName + "#" + customerName + "#" + receiptID;
   return tempString;
 }
 
