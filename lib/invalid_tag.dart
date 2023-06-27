@@ -13,7 +13,7 @@ class InvalidTag extends StatelessWidget {
       body: Center(
         child: AlertDialog(
           icon: const Icon(Icons.error_outline_rounded),
-          title: const Text("Invalid Tag Format!\nPlease format correctly!"),
+          title: const Text("Invalid Tag Format!\nPlease Cormat Correctly!"),
           actions: [
             IconButton(
                 onPressed: () {

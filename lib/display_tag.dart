@@ -32,6 +32,12 @@ class _DisplayTagState extends State<DisplayTag> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('NFC Receipt'),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.arrow_back_ios_rounded),
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
