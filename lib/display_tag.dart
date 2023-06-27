@@ -20,31 +20,30 @@ class _DisplayTagState extends State<DisplayTag> {
 
   var logoImage;
   var receiptInfo;
+  late List<String> productEntries;
 
   @override
   Widget build(BuildContext context) {
     parseResult();
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('NFC Receipt'),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.save_rounded),
-        ),
-        body: Column(
+      appBar: AppBar(
+        title: const Text('NFC Receipt'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.save_rounded),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: ndefWidgets,
-        ));
+        ),
+      ),
+    );
   }
 
   void parseResult() {
     tech = Ndef.from(widget.tag);
     if (tech is Ndef && tech != null) {
-      ndefWidgets.add(
-        const Spacer(
-          flex: 1,
-        ),
-      );
       final cachedMessage = tech!.cachedMessage;
       int recordNum = 0;
       for (var i in Iterable.generate(cachedMessage!.records.length)) {
@@ -53,9 +52,14 @@ class _DisplayTagState extends State<DisplayTag> {
         String recordString = info.subtitle.split(") ")[1];
         if (recordNum == 0) {
           Uint8List bytesImage;
-          bytesImage = const Base64Decoder().convert(recordString);
 
-          logoImage = Image.memory(bytesImage);
+          try {
+            bytesImage = const Base64Decoder().convert(recordString);
+            logoImage = Image.memory(bytesImage);
+          } catch (e) {
+            // Navigator.pop(context);
+            return;
+          }
           ndefWidgets.add(
             Center(
               child: logoImage,
@@ -64,15 +68,42 @@ class _DisplayTagState extends State<DisplayTag> {
         } else if (recordNum == 1) {
           receiptInfo = recordString.split("#");
           ndefWidgets.add(Text(receiptInfo[0]));
-          ndefWidgets.add(const Spacer());
-          ndefWidgets.add(Text(receiptInfo[1]));
-          ndefWidgets.add(Text(receiptInfo[2]));
+          ndefWidgets.add(Text("Customer Name: ${receiptInfo[1]}"));
+          ndefWidgets.add(Text("Receipt ID: ${receiptInfo[2]}"));
+        } else {
+          productEntries = recordString.split("#");
+          final rowsList = <DataRow>[];
+
+          for (var element in productEntries) {
+            List<String> productInfo = element.split("/");
+            rowsList.add(
+              DataRow(
+                cells: <DataCell>[
+                  DataCell(Text(productInfo[0])),
+                  DataCell(Text(productInfo[1])),
+                  DataCell(Text(productInfo[2])),
+                  DataCell(Text(((
+                    (double.tryParse(productInfo[2]) ?? 0) *
+                        (double.tryParse(productInfo[1]) ?? 0),
+                  ).toString())))
+                ],
+              ),
+            );
+          }
+
+          ndefWidgets.add(
+            FittedBox(
+              child: DataTable(columns: const <DataColumn>[
+                DataColumn(label: Text("Product Name")),
+                DataColumn(label: Text("Qty")),
+                DataColumn(label: Text("Unit Price")),
+                DataColumn(label: Text("Total")),
+              ], rows: rowsList),
+            ),
+          );
         }
         recordNum++;
       }
     }
-    ndefWidgets.add(const Spacer(
-      flex: 1,
-    ));
   }
 }
