@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
@@ -15,6 +17,9 @@ class DisplayTag extends StatefulWidget {
 class _DisplayTagState extends State<DisplayTag> {
   final ndefWidgets = <Widget>[];
   Ndef? tech;
+
+  var logoImage;
+  var receiptInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +40,39 @@ class _DisplayTagState extends State<DisplayTag> {
   void parseResult() {
     tech = Ndef.from(widget.tag);
     if (tech is Ndef && tech != null) {
+      ndefWidgets.add(
+        const Spacer(
+          flex: 1,
+        ),
+      );
       final cachedMessage = tech!.cachedMessage;
       int recordNum = 0;
       for (var i in Iterable.generate(cachedMessage!.records.length)) {
         final record = cachedMessage.records[i];
         final info = NdefRecordInfo.fromNdef(record);
+        String recordString = info.subtitle.split(") ")[1];
         if (recordNum == 0) {
           Uint8List bytesImage;
-          String imgString = info.subtitle.split(") ")[1];
-          bytesImage = const Base64Decoder().convert(imgString);
+          bytesImage = const Base64Decoder().convert(recordString);
 
-          Image.memory(bytesImage);
+          logoImage = Image.memory(bytesImage);
           ndefWidgets.add(
             Center(
-              child: Image.memory(bytesImage),
+              child: logoImage,
             ),
           );
-        } else {
-          ndefWidgets.add(
-            Text(info.subtitle.split(") ")[1]),
-          );
+        } else if (recordNum == 1) {
+          receiptInfo = recordString.split("#");
+          ndefWidgets.add(Text(receiptInfo[0]));
+          ndefWidgets.add(const Spacer());
+          ndefWidgets.add(Text(receiptInfo[1]));
+          ndefWidgets.add(Text(receiptInfo[2]));
         }
         recordNum++;
       }
     }
+    ndefWidgets.add(const Spacer(
+      flex: 1,
+    ));
   }
 }
