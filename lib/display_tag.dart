@@ -55,6 +55,13 @@ class _DisplayTagState extends State<DisplayTag> {
   }
 
   void parseResult() {
+    late TableRow customerNameRow;
+    late TableRow receiptIDRow;
+
+    ndefWidgets.add(const SizedBox(
+      height: 20,
+    ));
+
     tech = Ndef.from(widget.tag);
     if (tech is Ndef && tech != null) {
       final cachedMessage = tech!.cachedMessage;
@@ -73,16 +80,47 @@ class _DisplayTagState extends State<DisplayTag> {
             isValidData = false;
             return;
           }
-          ndefWidgets.add(
-            Center(
-              child: logoImage,
-            ),
-          );
+
+          ndefWidgets.add(logoImage);
+          ndefWidgets.add(const SizedBox(
+            height: 10,
+          ));
         } else if (recordNum == 1) {
           receiptInfo = recordString.split("#");
+
           ndefWidgets.add(Text(receiptInfo[0]));
-          ndefWidgets.add(Text("Customer Name: ${receiptInfo[1]}"));
-          ndefWidgets.add(Text("Receipt ID: ${receiptInfo[2]}"));
+          ndefWidgets.add(const SizedBox(
+            height: 20,
+          ));
+
+          customerNameRow = TableRow(children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text("Customer Name: "),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(receiptInfo[1]),
+            )
+          ]);
+
+          receiptIDRow = TableRow(children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text("Receipt ID: "),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(receiptInfo[2]),
+            )
+          ]);
+          ndefWidgets.add(Table(
+              border: TableBorder.all(color: Colors.black, width: 2.0),
+              children: <TableRow>[customerNameRow, receiptIDRow]));
+
+          ndefWidgets.add(const SizedBox(
+            height: 20,
+          ));
         } else {
           productEntries = recordString.split("#");
           final rowsList = <DataRow>[];
@@ -103,28 +141,45 @@ class _DisplayTagState extends State<DisplayTag> {
               ),
             );
           }
-
-          ndefWidgets.add(
-            FittedBox(
-              child: DataTable(
-                  showCheckboxColumn: true,
-                  border: TableBorder.all(),
-                  columns: const <DataColumn>[
-                    DataColumn(label: Text("Product Name")),
-                    DataColumn(label: Text("Qty")),
-                    DataColumn(label: Text("Unit Price")),
-                    DataColumn(label: Text("Total")),
-                  ],
-                  rows: rowsList),
-            ),
-          );
+          ndefWidgets.add(FittedBox(
+            child: DataTable(
+                showCheckboxColumn: true,
+                border: TableBorder.all(),
+                columns: const <DataColumn>[
+                  DataColumn(label: Text("Product Name")),
+                  DataColumn(label: Text("Qty")),
+                  DataColumn(label: Text("Unit Price")),
+                  DataColumn(label: Text("Total")),
+                ],
+                rows: rowsList),
+          ));
         }
         recordNum++;
       }
     }
+    ndefWidgets.add(
+      Table(
+        border: TableBorder.all(color: Colors.black, width: 2.0),
+        children: <TableRow>[
+          TableRow(
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text("Receipt Total: "),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child:
+                    Text(getTotalFromProductsInfo(productEntries).toString()),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
-  double getTotalFromProductsInfo(List productInfoList) {
+  double getTotalFromProductsInfo(List productEntries) {
     double total = 0;
     for (var element in productEntries) {
       List<String> productInfo = element.split("/");
