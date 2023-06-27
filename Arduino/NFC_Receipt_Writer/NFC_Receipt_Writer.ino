@@ -7,7 +7,7 @@
 MFRC522 mfrc522(CS_PIN, 9); // Create MFRC522 instance
 NfcAdapter nfc = NfcAdapter(&mfrc522);
 
-char imageBase64[] = "Qk1+AAAAAAAAAD4AAAAoAAAAEAAAABAAAAABAAEAAAAAAEAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD//wAAwH8AALw/AAC+HwAAnc8AAIxPAACIVwAAv9MAAL/TAAC/iwAA3CcAAMBHAADDrQAA4EMAAP33AAD//wAA";
+char imageBase64[] = "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==";
 String superMarketName = "Client's SuperMarket";
 String customerName = "Client's Name";
 String receiptID = "aaaaaaaaaaaaaaaa";
