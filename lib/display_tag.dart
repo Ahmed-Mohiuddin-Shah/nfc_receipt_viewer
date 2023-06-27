@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_receipt_viewer/invalid_tag.dart';
 import 'package:nfc_receipt_viewer/ndef_record.dart';
 
 class DisplayTag extends StatefulWidget {
@@ -15,6 +16,8 @@ class DisplayTag extends StatefulWidget {
 }
 
 class _DisplayTagState extends State<DisplayTag> {
+  bool isValidData = true;
+
   final ndefWidgets = <Widget>[];
   Ndef? tech;
 
@@ -25,20 +28,24 @@ class _DisplayTagState extends State<DisplayTag> {
   @override
   Widget build(BuildContext context) {
     parseResult();
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('NFC Receipt'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.save_rounded),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: ndefWidgets,
+    if (isValidData) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('NFC Receipt'),
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.save_rounded),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: ndefWidgets,
+          ),
+        ),
+      );
+    } else {
+      return const InvalidTag();
+    }
   }
 
   void parseResult() {
@@ -57,7 +64,7 @@ class _DisplayTagState extends State<DisplayTag> {
             bytesImage = const Base64Decoder().convert(recordString);
             logoImage = Image.memory(bytesImage);
           } catch (e) {
-            // Navigator.pop(context);
+            isValidData = false;
             return;
           }
           ndefWidgets.add(
