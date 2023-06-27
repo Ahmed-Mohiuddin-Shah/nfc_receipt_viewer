@@ -36,19 +36,27 @@ class _DisplayTagState extends State<DisplayTag> {
     tech = Ndef.from(widget.tag);
     if (tech is Ndef && tech != null) {
       final cachedMessage = tech!.cachedMessage;
+      int recordNum = 0;
       for (var i in Iterable.generate(cachedMessage!.records.length)) {
         final record = cachedMessage.records[i];
         final info = NdefRecordInfo.fromNdef(record);
-        Uint8List bytesImage;
-        String imgString = info.subtitle.split(") ")[1];
-        bytesImage = const Base64Decoder().convert(imgString);
+        if (recordNum == 0) {
+          Uint8List bytesImage;
+          String imgString = info.subtitle.split(") ")[1];
+          bytesImage = const Base64Decoder().convert(imgString);
 
-        Image.memory(bytesImage);
-        ndefWidgets.add(
-          Center(
-            child: Image.memory(bytesImage),
-          ),
-        );
+          Image.memory(bytesImage);
+          ndefWidgets.add(
+            Center(
+              child: Image.memory(bytesImage),
+            ),
+          );
+        } else {
+          ndefWidgets.add(
+            Text(info.subtitle.split(") ")[1]),
+          );
+        }
+        recordNum++;
       }
     }
   }
