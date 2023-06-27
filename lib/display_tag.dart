@@ -27,7 +27,12 @@ class _DisplayTagState extends State<DisplayTag> {
 
   @override
   Widget build(BuildContext context) {
-    parseResult();
+    try {
+      parseResult();
+    } catch (e) {
+      isValidData = false;
+    }
+
     if (isValidData) {
       return Scaffold(
         appBar: AppBar(
@@ -72,15 +77,8 @@ class _DisplayTagState extends State<DisplayTag> {
         String recordString = info.subtitle.split(") ")[1];
         if (recordNum == 0) {
           Uint8List bytesImage;
-
-          try {
-            bytesImage = const Base64Decoder().convert(recordString);
-            logoImage = Image.memory(bytesImage);
-          } catch (e) {
-            isValidData = false;
-            return;
-          }
-
+          bytesImage = const Base64Decoder().convert(recordString);
+          logoImage = Image.memory(bytesImage);
           ndefWidgets.add(logoImage);
           ndefWidgets.add(const SizedBox(
             height: 10,
