@@ -14,12 +14,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: const MainPage(),
       theme: ThemeData(
-        // fontFamily: 'HelloHeadline',
+        fontFamily: 'HelloHeadline',
         primarySwatch: Colors.blueGrey,
       ),
       darkTheme: ThemeData(
         canvasColor: Colors.teal.shade700,
-        // fontFamily: 'HelloHeadline',
+        fontFamily: 'HelloHeadline',
         primarySwatch: Colors.teal,
         scaffoldBackgroundColor: Colors.blueGrey.shade900,
         colorScheme: ColorScheme(
