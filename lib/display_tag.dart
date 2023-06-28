@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/invalid_tag.dart';
 import 'package:nfc_receipt_viewer/ndef_record.dart';
+import 'package:nfc_receipt_viewer/save_receipt.dart';
 
 class DisplayTag extends StatefulWidget {
   final NfcTag tag;
@@ -45,7 +46,16 @@ class _DisplayTagState extends State<DisplayTag> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return const SaveReceipt();
+                },
+              ),
+            );
+          },
           child: const Icon(Icons.save_rounded),
         ),
         body: SingleChildScrollView(
