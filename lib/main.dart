@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:nfc_receipt_viewer/read_tag.dart';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -96,11 +98,13 @@ class _MainPageState extends State<MainPage> {
               itemBuilder: (BuildContext context, int index) {
                 return Dismissible(
                   direction: DismissDirection.endToStart,
-                  background: Container(
+                  background: Card(
                     color: Colors.red,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: const Icon(Icons.delete_forever),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      alignment: const Alignment(1, 0),
+                      child: const Icon(Icons.delete_rounded),
+                    ),
                   ),
                   key: ValueKey<int>(snapshot.data![index].id!),
                   onDismissed: (DismissDirection direction) async {
@@ -110,11 +114,18 @@ class _MainPageState extends State<MainPage> {
                     });
                   },
                   child: Card(
-                      child: ListTile(
-                    contentPadding: const EdgeInsets.all(8.0),
-                    title: Text(snapshot.data![index].receiptID),
-                    subtitle: Text(snapshot.data![index].superMarketName),
-                  )),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(8.0),
+                      title: Text(snapshot.data![index].receiptID),
+                      subtitle: Text(snapshot.data![index].superMarketName),
+                      leading: Image.memory(
+                        base64Decode(
+                          snapshot.data![index].imageBase64,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                  ),
                 );
               },
             );
