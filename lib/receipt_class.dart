@@ -29,6 +29,7 @@ class Receipt {
     return {
       'id': id,
       'receiptID': receiptID,
+      'image': imageBase64,
       'shopName': superMarketName,
       'name': customerName,
       'entries': productEntries,

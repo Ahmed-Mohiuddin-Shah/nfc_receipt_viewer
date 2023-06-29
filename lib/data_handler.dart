@@ -8,7 +8,7 @@ class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, 'example.db'),
+      join(path, 'EV.db'),
       onCreate: (database, version) async {
         await database.execute(
           "CREATE TABLE receipts(id INTEGER PRIMARY KEY AUTOINCREMENT, receiptID TEXT NOT NULL, image TEXT NOT NULL, shopName TEXT NOT NULL, name TEXT NOT NULL, entries, total TEXT NOT NULL)",
@@ -45,14 +45,16 @@ class DatabaseHandler {
   Future<int> addReceipts() async {
     Receipt firstReceipt = Receipt(
         receiptID: "fsfijwfj",
-        imageBase64: "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==",
+        imageBase64:
+            "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==",
         superMarketName: "Hello",
         customerName: "Goerge",
         productEntries: "Products",
         receiptTotal: "1000");
     Receipt secondReceipt = Receipt(
         receiptID: "hdhdddf",
-        imageBase64: "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==",
+        imageBase64:
+            "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==",
         superMarketName: "World",
         customerName: "jeoff",
         productEntries: "Products",
