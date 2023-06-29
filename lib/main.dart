@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nfc_receipt_viewer/display_tag_from_database.dart';
 import 'package:nfc_receipt_viewer/read_tag.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/receipt_class.dart';
@@ -123,7 +124,15 @@ class _MainPageState extends State<MainPage> {
                           snapshot.data![index].imageBase64,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const DisplayTagFromDB();
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ),
                 );
