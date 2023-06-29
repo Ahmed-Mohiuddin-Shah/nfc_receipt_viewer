@@ -1,13 +1,13 @@
 class Receipt {
-  final int id;
+  final int? id;
   final String receiptID;
   final String superMarketName;
   final String customerName;
   final String productEntries;
-  final double receiptTotal;
+  final String receiptTotal;
 
   Receipt(
-      {required this.id,
+      {this.id,
       required this.receiptID,
       required this.superMarketName,
       required this.customerName,

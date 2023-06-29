@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_receipt_viewer/read_tag.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_receipt_viewer/receipt_class.dart';
+
+import 'data_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,6 +51,18 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late DatabaseHandler dbHandler;
+
+  @override
+  void initState() {
+    super.initState();
+    dbHandler = DatabaseHandler();
+    dbHandler.initializeDB().whenComplete(() async {
+      await dbHandler.addReceipts();
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +86,42 @@ class _MainPageState extends State<MainPage> {
           });
         },
         child: const Icon(Icons.nfc_rounded),
+      ),
+      body: FutureBuilder(
+        future: dbHandler.retrieveReceipts(),
+        builder: (BuildContext context, AsyncSnapshot<List<Receipt>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data?.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Dismissible(
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: const Icon(Icons.delete_forever),
+                  ),
+                  key: ValueKey<int>(snapshot.data![index].id!),
+                  onDismissed: (DismissDirection direction) async {
+                    await dbHandler.deleteReceipt(snapshot.data![index].id!);
+                    setState(() {
+                      snapshot.data!.remove(snapshot.data![index]);
+                    });
+                  },
+                  child: Card(
+                      child: ListTile(
+                    contentPadding: const EdgeInsets.all(8.0),
+                    title: Text(snapshot.data![index].receiptID),
+                    subtitle: Text(snapshot.data![index].superMarketName),
+                  )),
+                );
+              },
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
