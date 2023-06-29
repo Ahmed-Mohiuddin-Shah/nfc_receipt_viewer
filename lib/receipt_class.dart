@@ -3,7 +3,7 @@ class Receipt {
   final String receiptID;
   final String superMarketName;
   final String customerName;
-  List<List<String>> productEntries;
+  final String productEntries;
   final double receiptTotal;
 
   Receipt(
