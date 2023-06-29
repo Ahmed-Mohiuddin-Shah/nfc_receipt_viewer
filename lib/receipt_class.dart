@@ -1,19 +1,22 @@
 class Receipt {
-  final int receiptID;
+  final int id;
+  final String receiptID;
   final String superMarketName;
   final String customerName;
   List<List<String>> productEntries;
   final double receiptTotal;
 
   Receipt(
-      {required this.receiptID,
+      {required this.id,
+      required this.receiptID,
       required this.superMarketName,
       required this.customerName,
       required this.productEntries,
       required this.receiptTotal});
 
   Receipt.fromMap(Map<String, dynamic> res)
-      : receiptID = res["id"],
+      : id = res["id"],
+        receiptID = res["receiptID"],
         superMarketName = res["shopName"],
         customerName = res["name"],
         productEntries = res["entries"],
@@ -21,7 +24,8 @@ class Receipt {
 
   Map<String, Object?> toMap() {
     return {
-      'id': receiptID,
+      'id': id,
+      'receiptID': receiptID,
       'shopName': superMarketName,
       'name': customerName,
       'entries': productEntries,
