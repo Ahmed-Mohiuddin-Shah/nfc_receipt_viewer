@@ -7,7 +7,17 @@ class DisplayTagFromDB extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Sample Receipt from Database"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.delete_rounded),
+            )
+          ],
+          title: const FittedBox(
+            child: Text("Sample Receipt from Database"),
+          ),
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
