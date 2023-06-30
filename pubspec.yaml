@@ -38,6 +38,8 @@ dependencies:
   nfc_manager: ^3.3.0
   sqflite: ^2.2.8+4
   path: ^1.8.0
+  flutter_slidable: ^0.6.0
+
 
 dev_dependencies:
   flutter_test:
