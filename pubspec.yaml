@@ -38,6 +38,7 @@ dependencies:
   nfc_manager: ^3.3.0
   sqflite: ^2.2.8+4
   path: ^1.8.0
+  lottie: ^1.2.1
 
 
 dev_dependencies:
