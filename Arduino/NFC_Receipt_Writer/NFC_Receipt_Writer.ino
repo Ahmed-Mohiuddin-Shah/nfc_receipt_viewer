@@ -3,18 +3,21 @@
 #include <NfcAdapter.h>
 #include <string.h>
 
-#define CS_PIN 10
+#define CS_PIN 10 // Chip select pin
 MFRC522 mfrc522(CS_PIN, 9); // Create MFRC522 instance
-NfcAdapter nfc = NfcAdapter(&mfrc522);
+NfcAdapter nfc = NfcAdapter(&mfrc522); // Create NfcAdapter Instance
 
 char imageBase64[] = "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==";
-String superMarketName = "Client's SuperMarket";
-String customerName = "Client's Name";
-String receiptID = "aaaaaaaaaaaaaaaa";
+String superMarketName = "Imtiaz SuperMart";
+String customerName = "Ali Shah";
+String receiptID = "02/07/2023-00000";
 
+// Product entries seperated by slashes (/) and ordered as productName/Qty/unitPrice
 char entries[][41] = {
-    "Logitech Mouse/2/5000",
-    "Water Bottle/3/550"};
+    "Chaki Ata/1/5000",
+    "Water Bottle/3/170",
+    "Quice Icecream Syrup/2/565",
+    "Pizza Dough/5/350"};
 
 void setup()
 {
@@ -22,7 +25,7 @@ void setup()
   Serial.println("NDEF writer\nPlace a formatted Mifare Classic or Ultralight NFC tag on the reader.");
   SPI.begin();        // Init SPI bus
   mfrc522.PCD_Init(); // Init MFRC522
-  nfc.begin();
+  nfc.begin();        // Begin NfcAdapter
 }
 
 void loop()
@@ -31,12 +34,13 @@ void loop()
   {
     Serial.println("Writing record to NFC tag");
 
+    // Adding ndef records
     NdefMessage message = NdefMessage();
     message.addTextRecord(imageBase64);
-    message.addTextRecord(combineData().c_str());
-    message.addTextRecord(combineProductEntries().c_str());
+    message.addTextRecord(combineData().c_str());             // Converting String returned by function to char array and adding as text record
+    message.addTextRecord(combineProductEntries().c_str());   // ^^^^
 
-    bool success = nfc.write(message);
+    bool success = nfc.write(message);                        // Writing to nfc card and taking return value to check for successfull read and write
     if (success)
     {
       Serial.println("\tSuccess. Try reading this tag with your phone.");
@@ -50,12 +54,14 @@ void loop()
   delay(500);
 }
 
+// Function for combing receipt info
 String combineData()
 {
   String tempString = superMarketName + "#" + customerName + "#" + receiptID;
   return tempString;
 }
 
+// Function for combining product entries by joining them with a "#" seperator
 String combineProductEntries()
 {
   String tempString = "";
