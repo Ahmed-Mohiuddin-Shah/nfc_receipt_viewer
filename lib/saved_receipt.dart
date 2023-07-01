@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SaveReceipt extends StatefulWidget {
-  const SaveReceipt({super.key});
+class SavedReceipt extends StatefulWidget {
+  const SavedReceipt({super.key});
 
   @override
-  State<SaveReceipt> createState() => _SaveReceiptState();
+  State<SavedReceipt> createState() => _SavedReceiptState();
 }
 
-class _SaveReceiptState extends State<SaveReceipt> {
+class _SavedReceiptState extends State<SavedReceipt> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

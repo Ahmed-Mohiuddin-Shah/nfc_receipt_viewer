@@ -7,7 +7,8 @@ import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/data_handler.dart';
 import 'package:nfc_receipt_viewer/invalid_tag.dart';
 import 'package:nfc_receipt_viewer/ndef_record.dart';
-import 'package:nfc_receipt_viewer/save_receipt.dart';
+import 'package:nfc_receipt_viewer/receipt_class.dart';
+import 'package:nfc_receipt_viewer/saved_receipt.dart';
 
 class DisplayTag extends StatefulWidget {
   final NfcTag tag;
@@ -40,27 +41,27 @@ class _DisplayTagState extends State<DisplayTag> {
     if (isValidData) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('NFC Receipt'),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios_rounded),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
-                  return const SaveReceipt();
+            title: const Text('NFC Receipt'),
+            leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back_ios_rounded),
+            ),
+            actions: <Widget>[
+              IconButton(
+                onPressed: () async {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const SavedReceipt();
+                      },
+                    ),
+                  );
                 },
+                icon: const Icon(Icons.save_rounded),
               ),
-            );
-          },
-          child: const Icon(Icons.save_rounded),
-        ),
+            ]),
         body: SingleChildScrollView(
           child: Column(
             children: ndefWidgets,
