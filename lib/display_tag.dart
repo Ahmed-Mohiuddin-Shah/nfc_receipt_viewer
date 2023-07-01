@@ -24,7 +24,7 @@ class _DisplayTagState extends State<DisplayTag> {
 
   var logoImage;
   var receiptInfo;
-  late List<String> productEntries;
+  late String productEntries;
 
   @override
   Widget build(BuildContext context) {
@@ -130,10 +130,10 @@ class _DisplayTagState extends State<DisplayTag> {
             height: 20,
           ));
         } else {
-          productEntries = recordString.split("#");
+          productEntries = recordString;
           final rowsList = <DataRow>[];
 
-          for (var element in productEntries) {
+          for (var element in productEntries.split("#")) {
             List<String> productInfo = element.split("/");
             rowsList.add(
               DataRow(
@@ -187,9 +187,9 @@ class _DisplayTagState extends State<DisplayTag> {
     );
   }
 
-  double getTotalFromProductsInfo(List productEntries) {
+  double getTotalFromProductsInfo(String productEntries) {
     double total = 0;
-    for (var element in productEntries) {
+    for (var element in productEntries.split("#")) {
       List<String> productInfo = element.split("/");
       total += (double.tryParse(productInfo[2]) ?? 0) *
           (double.tryParse(productInfo[1]) ?? 0);
