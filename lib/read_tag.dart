@@ -18,8 +18,12 @@ class _ReadTagState extends State<ReadTag> {
     _tagRead(context);
     return SizedBox(
       height: 200,
-      child: Center(
-        child: Lottie.asset("images/nfc_animation.json"),
+      child: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Container(
+          child:
+              Lottie.asset("images/nfc_animation.json", fit: BoxFit.scaleDown),
+        ),
       ),
     );
   }
