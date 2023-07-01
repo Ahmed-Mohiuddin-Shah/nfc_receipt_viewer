@@ -7,17 +7,16 @@
 MFRC522 mfrc522(CS_PIN, 9); // Create MFRC522 instance
 NfcAdapter nfc = NfcAdapter(&mfrc522); // Create NfcAdapter Instance
 
-char imageBase64[] = "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==";
-String superMarketName = "Imtiaz SuperMart";
-String customerName = "Ali Shah";
-String receiptID = "02/07/2023-00000";
+char imageBase64[] = "Qk2+AAAAAAAAAD4AAAAoAAAAIAAAACAAAAABAAEAAAAAAIAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD///////////AAP//wAD//z/AP/8/wD//P/AP/z/wD/8Pz8P/D8/D/wPAw/8DwMP/AwDM/wMAzP8//8w/P//MPz//zD8//8w/P/8DPz//Az/PwDD/z8Aw/8AAwP/AAMD/wD8zz8A/M8/wAMA/8ADAP//P/P//z/z///////////w==";
+String superMarketName = "Hobby Store";
+String customerName = "Ben Dover";
+String receiptID = "02/07/2023-69420";
 
 // Product entries seperated by slashes (/) and ordered as productName/Qty/unitPrice
 char entries[][41] = {
-    "Chaki Ata/1/5000",
-    "Water Bottle/3/170",
-    "Quice Icecream Syrup/2/565",
-    "Pizza Dough/5/350"};
+    "Model Airplane SAAD Draken/1/50000",
+    "FlySky Fi6/1/1600"
+    };
 
 void setup()
 {
