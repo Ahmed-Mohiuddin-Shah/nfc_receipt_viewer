@@ -60,7 +60,6 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     dbHandler = DatabaseHandler();
     dbHandler.initializeDB().whenComplete(() async {
-      await dbHandler.addReceipts();
       setState(() {});
     });
   }
