@@ -88,9 +88,7 @@ class _MainPageState extends State<MainPage> {
               }).whenComplete(() {
             NfcManager.instance.stopSession();
           });
-          setState(() {
-            ;
-          });
+          setState(() {  });
         },
         child: const Icon(Icons.nfc_rounded),
       ),

@@ -27,6 +27,8 @@ class _ReadTagState extends State<ReadTag> {
   void _tagRead(BuildContext context) {
     NfcManager.instance.startSession(
       onDiscovered: (NfcTag tag) async {
+        
+        Navigator.of(context).pop();
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
