@@ -27,8 +27,7 @@ class _ReadTagState extends State<ReadTag> {
   void _tagRead(BuildContext context) {
     NfcManager.instance.startSession(
       onDiscovered: (NfcTag tag) async {
-        Navigator.of(context).pop();
-        Navigator.of(context).push(
+        await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
               return DisplayTag(
@@ -38,6 +37,9 @@ class _ReadTagState extends State<ReadTag> {
             },
           ),
         );
+
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop();
         NfcManager.instance.stopSession();
       },
       onError: (error) {

@@ -88,7 +88,7 @@ class _MainPageState extends State<MainPage> {
               }).whenComplete(() {
             NfcManager.instance.stopSession();
           });
-          setState(() {  });
+          setState(() {});
         },
         child: const Icon(Icons.nfc_rounded),
       ),
@@ -159,8 +159,7 @@ class _MainPageState extends State<MainPage> {
                     child: ListTile(
                       key: ValueKey<int>(snapshot.data![index].id!),
                       contentPadding: const EdgeInsets.all(8.0),
-                      title: Text(
-                          "${snapshot.data![index].id}. ${snapshot.data![index].receiptID}"),
+                      title: Text(snapshot.data![index].receiptID),
                       subtitle: Text(snapshot.data![index].superMarketName),
                       leading: Image.memory(
                         base64Decode(
