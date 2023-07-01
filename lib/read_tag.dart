@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/display_tag.dart';
 import 'data_handler.dart';
@@ -15,11 +16,10 @@ class _ReadTagState extends State<ReadTag> {
   @override
   Widget build(BuildContext context) {
     _tagRead(context);
-
-    return const SizedBox(
+    return SizedBox(
       height: 200,
       child: Center(
-        child: Text("Scanning..."),
+        child: Lottie.asset("images/nfc_animation.json"),
       ),
     );
   }
@@ -27,7 +27,6 @@ class _ReadTagState extends State<ReadTag> {
   void _tagRead(BuildContext context) {
     NfcManager.instance.startSession(
       onDiscovered: (NfcTag tag) async {
-        
         Navigator.of(context).pop();
         Navigator.of(context).push(
           MaterialPageRoute(
