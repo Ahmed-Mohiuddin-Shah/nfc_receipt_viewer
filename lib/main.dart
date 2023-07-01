@@ -168,10 +168,15 @@ class _MainPageState extends State<MainPage> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return DisplayTagFromDB(receipt: snapshot.data![index]);
+                              return DisplayTagFromDB(
+                                receipt: snapshot.data![index],
+                                dbHandler: dbHandler,
+                              );
                             },
                           ),
-                        );
+                        ).whenComplete(() {
+                          setState(() {});
+                        });
                       },
                     ),
                   ),

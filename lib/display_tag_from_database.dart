@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:nfc_receipt_viewer/data_handler.dart';
 import 'package:nfc_receipt_viewer/receipt_class.dart';
 
 class DisplayTagFromDB extends StatelessWidget {
   final Receipt receipt;
+  final DatabaseHandler dbHandler;
 
-  DisplayTagFromDB({Key? myKey, required this.receipt}) : super(key: myKey);
+  DisplayTagFromDB({Key? myKey, required this.receipt, required this.dbHandler})
+      : super(key: myKey);
 
   final ndefWidgets = <Widget>[];
 
@@ -19,7 +22,49 @@ class DisplayTagFromDB extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        title: const Text("NFC Receipt Viewer"),
+                        automaticallyImplyLeading: false,
+                      ),
+                      body: AlertDialog(
+                        title: const Icon(Icons.dangerous_rounded),
+                        content: const FittedBox(
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                    'Are you sure you want to delete this item?'),
+                                Text('This action is not reversible!')
+                              ],
+                            ),
+                          ),
+                        ),
+                        actions: <Widget>[
+                          ElevatedButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          ElevatedButton(
+                            child: const Text('Delete'),
+                            onPressed: () {
+                              dbHandler.deleteReceipt(receipt.id!);
+                              
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
             },
             icon: const Icon(Icons.delete_rounded),
           )
@@ -29,7 +74,7 @@ class DisplayTagFromDB extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(false);
           },
           icon: const Icon(Icons.arrow_back_ios_rounded),
         ),
