@@ -4,13 +4,16 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
+import 'package:nfc_receipt_viewer/data_handler.dart';
 import 'package:nfc_receipt_viewer/invalid_tag.dart';
 import 'package:nfc_receipt_viewer/ndef_record.dart';
 import 'package:nfc_receipt_viewer/save_receipt.dart';
 
 class DisplayTag extends StatefulWidget {
   final NfcTag tag;
-  const DisplayTag({Key? myKey, required this.tag}) : super(key: myKey);
+  final DatabaseHandler dbHandler;
+  const DisplayTag({Key? myKey, required this.tag, required this.dbHandler})
+      : super(key: myKey);
 
   @override
   State<DisplayTag> createState() => _DisplayTagState();

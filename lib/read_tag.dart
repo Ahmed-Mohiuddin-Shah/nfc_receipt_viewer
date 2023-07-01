@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/display_tag.dart';
+import 'data_handler.dart';
 
 class ReadTag extends StatefulWidget {
-  const ReadTag({super.key});
+  
+  final DatabaseHandler dbHandler;
+  const ReadTag({Key? myKey, required this.dbHandler})
+      : super(key: myKey);
 
   @override
   State<ReadTag> createState() => _ReadTagState();
@@ -21,16 +25,15 @@ class _ReadTagState extends State<ReadTag> {
       ),
     );
   }
-}
 
-void _tagRead(BuildContext context) {
+  void _tagRead(BuildContext context) {
   NfcManager.instance.startSession(
     onDiscovered: (NfcTag tag) async {
       Navigator.pop(context);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) {
-            return DisplayTag(tag: tag);
+            return DisplayTag(tag: tag, dbHandler: widget.dbHandler,);
           },
         ),
       );
@@ -41,4 +44,6 @@ void _tagRead(BuildContext context) {
       return Future(() => null);
     },
   );
+}
+
 }

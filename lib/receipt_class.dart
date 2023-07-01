@@ -36,7 +36,12 @@ class Receipt {
   static Receipt getReceipt(
       String logoImage, String receiptInfo, String productEntries) {
     List<String> temp1 = receiptInfo.split("#");
-    
-    return Receipt(receiptID: temp1.elementAt(2), imageBase64: logoImage, superMarketName: temp1.elementAt(0), customerName: temp1.elementAt(1), productEntries: productEntries);
+
+    return Receipt(
+        receiptID: temp1.elementAt(2),
+        imageBase64: logoImage,
+        superMarketName: temp1.elementAt(0),
+        customerName: temp1.elementAt(1),
+        productEntries: productEntries);
   }
 }

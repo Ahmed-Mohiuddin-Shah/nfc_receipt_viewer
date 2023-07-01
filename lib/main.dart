@@ -82,7 +82,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               builder: (BuildContext context) {
-                return const ReadTag();
+                return ReadTag(dbHandler: dbHandler,);
               }).whenComplete(() {
             NfcManager.instance.stopSession();
           });
