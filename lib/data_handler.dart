@@ -49,7 +49,7 @@ class DatabaseHandler {
             "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==",
         superMarketName: "Hello",
         customerName: "Goerge",
-        productEntries: "Products",
+        productEntries: "haier/12/14323",
         receiptTotal: "1000");
     Receipt secondReceipt = Receipt(
         receiptID: "hdhdddf",
@@ -57,7 +57,7 @@ class DatabaseHandler {
             "Qk2mAAAAAAAAAD4AAAAoAAAAIAAAABoAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAAAAAA/////////////////8AAAAOAAAADgAAAA4AAAAPAAAAH4A/gB+Af8A/wH/AP+A/wH/gP4D/8B+B//gPAf/4DgP//AAH//4AB//+AA///wAf//+AH///gD///8B////gf///4P////H///////w==",
         superMarketName: "World",
         customerName: "jeoff",
-        productEntries: "Products",
+        productEntries: "Logitech/3/123",
         receiptTotal: "1042100");
     List<Receipt> listOfReceipts = [firstReceipt, secondReceipt];
     return DatabaseHandler().insertReceipts(listOfReceipts);
