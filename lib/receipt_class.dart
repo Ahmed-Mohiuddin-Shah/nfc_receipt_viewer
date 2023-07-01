@@ -5,7 +5,6 @@ class Receipt {
   final String superMarketName;
   final String customerName;
   final String productEntries;
-  final String receiptTotal;
 
   Receipt(
       {this.id,
@@ -13,8 +12,7 @@ class Receipt {
       required this.imageBase64,
       required this.superMarketName,
       required this.customerName,
-      required this.productEntries,
-      required this.receiptTotal});
+      required this.productEntries});
 
   Receipt.fromMap(Map<String, dynamic> res)
       : id = res["id"],
@@ -22,8 +20,7 @@ class Receipt {
         imageBase64 = res["image"],
         superMarketName = res["shopName"],
         customerName = res["name"],
-        productEntries = res["entries"],
-        receiptTotal = res["total"];
+        productEntries = res["entries"];
 
   Map<String, Object?> toMap() {
     return {
@@ -33,7 +30,6 @@ class Receipt {
       'shopName': superMarketName,
       'name': customerName,
       'entries': productEntries,
-      'total': receiptTotal,
     };
   }
 }
