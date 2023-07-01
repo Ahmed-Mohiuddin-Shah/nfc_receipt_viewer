@@ -4,10 +4,8 @@ import 'package:nfc_receipt_viewer/display_tag.dart';
 import 'data_handler.dart';
 
 class ReadTag extends StatefulWidget {
-  
   final DatabaseHandler dbHandler;
-  const ReadTag({Key? myKey, required this.dbHandler})
-      : super(key: myKey);
+  const ReadTag({Key? myKey, required this.dbHandler}) : super(key: myKey);
 
   @override
   State<ReadTag> createState() => _ReadTagState();
@@ -27,23 +25,24 @@ class _ReadTagState extends State<ReadTag> {
   }
 
   void _tagRead(BuildContext context) {
-  NfcManager.instance.startSession(
-    onDiscovered: (NfcTag tag) async {
-      Navigator.pop(context);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return DisplayTag(tag: tag, dbHandler: widget.dbHandler,);
-          },
-        ),
-      );
-      NfcManager.instance.stopSession();
-    },
-    onError: (error) {
-      Navigator.pop(context);
-      return Future(() => null);
-    },
-  );
-}
-
+    NfcManager.instance.startSession(
+      onDiscovered: (NfcTag tag) async {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return DisplayTag(
+                tag: tag,
+                dbHandler: widget.dbHandler,
+              );
+            },
+          ),
+        );
+        NfcManager.instance.stopSession();
+      },
+      onError: (error) {
+        Navigator.pop(context);
+        return Future(() => null);
+      },
+    );
+  }
 }

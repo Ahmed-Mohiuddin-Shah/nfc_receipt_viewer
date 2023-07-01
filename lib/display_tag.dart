@@ -26,14 +26,17 @@ class _DisplayTagState extends State<DisplayTag> {
   final ndefWidgets = <Widget>[];
   Ndef? tech;
 
-  var logoImage;
-  var receiptInfo;
+  late String logoImage;
+  late String receiptInfo;
   late String productEntries;
+
+  late Receipt receipt;
 
   @override
   Widget build(BuildContext context) {
     try {
       parseResult();
+      receipt = Receipt.getReceipt(logoImage, receiptInfo, productEntries);
     } catch (e) {
       isValidData = false;
     }
@@ -54,9 +57,12 @@ class _DisplayTagState extends State<DisplayTag> {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
+                        widget.dbHandler.insertReceipts([receipt]);
                         return const SavedReceipt();
                       },
                     ),
+                  ).whenComplete(
+                    () => setState(() {}),
                   );
                 },
                 icon: const Icon(Icons.save_rounded),
@@ -91,16 +97,18 @@ class _DisplayTagState extends State<DisplayTag> {
         String recordString = info.subtitle.split(") ")[1];
         if (recordNum == 0) {
           Uint8List bytesImage;
+          logoImage = recordString;
           bytesImage = const Base64Decoder().convert(recordString);
-          logoImage = Image.memory(bytesImage);
-          ndefWidgets.add(logoImage);
+          var logoImageBytes = Image.memory(bytesImage);
+          ndefWidgets.add(logoImageBytes);
           ndefWidgets.add(const SizedBox(
             height: 10,
           ));
         } else if (recordNum == 1) {
-          receiptInfo = recordString.split("#");
+          receiptInfo = recordString;
+          List<String> receiptInfoList = recordString.split("#");
 
-          ndefWidgets.add(Text(receiptInfo[0]));
+          ndefWidgets.add(Text(receiptInfoList[0]));
           ndefWidgets.add(const SizedBox(
             height: 20,
           ));
@@ -112,7 +120,7 @@ class _DisplayTagState extends State<DisplayTag> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Text(receiptInfo[1]),
+              child: Text(receiptInfoList[1]),
             )
           ]);
 
@@ -123,7 +131,7 @@ class _DisplayTagState extends State<DisplayTag> {
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Text(receiptInfo[2]),
+              child: Text(receiptInfoList[2]),
             )
           ]);
           ndefWidgets.add(Table(

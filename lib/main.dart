@@ -72,8 +72,8 @@ class _MainPageState extends State<MainPage> {
         title: const Text('NFC Receipt Viewer'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
+        onPressed: () async {
+          await showModalBottomSheet(
               context: context,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -82,9 +82,14 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
               builder: (BuildContext context) {
-                return ReadTag(dbHandler: dbHandler,);
+                return ReadTag(
+                  dbHandler: dbHandler,
+                );
               }).whenComplete(() {
             NfcManager.instance.stopSession();
+          });
+          setState(() {
+            ;
           });
         },
         child: const Icon(Icons.nfc_rounded),

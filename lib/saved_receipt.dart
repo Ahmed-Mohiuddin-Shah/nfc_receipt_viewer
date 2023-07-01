@@ -22,7 +22,9 @@ class _SavedReceiptState extends State<SavedReceipt> {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
               },
               icon: const Icon(Icons.arrow_back_ios_new_rounded),
             )
