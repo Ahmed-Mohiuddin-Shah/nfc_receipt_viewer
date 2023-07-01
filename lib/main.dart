@@ -154,8 +154,10 @@ class _MainPageState extends State<MainPage> {
                   },
                   child: Card(
                     child: ListTile(
+                      key: ValueKey<int>(snapshot.data![index].id!),
                       contentPadding: const EdgeInsets.all(8.0),
-                      title: Text(snapshot.data![index].receiptID),
+                      title: Text(
+                          "${snapshot.data![index].id}. ${snapshot.data![index].receiptID}"),
                       subtitle: Text(snapshot.data![index].superMarketName),
                       leading: Image.memory(
                         base64Decode(
@@ -166,7 +168,7 @@ class _MainPageState extends State<MainPage> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return const DisplayTagFromDB();
+                              return DisplayTagFromDB(receipt: snapshot.data![index]);
                             },
                           ),
                         );

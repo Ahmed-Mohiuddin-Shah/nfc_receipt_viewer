@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_receipt_viewer/receipt_class.dart';
 
 class DisplayTagFromDB extends StatelessWidget {
-  const DisplayTagFromDB({super.key});
+  final Receipt receipt;
+
+  const DisplayTagFromDB({Key? myKey, required this.receipt})
+      : super(key: myKey);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +19,8 @@ class DisplayTagFromDB extends StatelessWidget {
               icon: const Icon(Icons.delete_rounded),
             )
           ],
-          title: const FittedBox(
-            child: Text("Sample Receipt from Database"),
+          title: FittedBox(
+            child: Text(receipt.receiptID),
           ),
           leading: IconButton(
             onPressed: () {
