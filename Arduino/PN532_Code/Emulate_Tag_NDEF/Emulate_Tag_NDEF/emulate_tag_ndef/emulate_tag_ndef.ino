@@ -1,6 +1,5 @@
 #include "emulatetag.h"
 #include "NdefMessage.h"
-#include "bitmap.h"
 #include <SPI.h>
 #include "PN532_SPI.h"
 #include "PN532.h"
@@ -13,15 +12,15 @@ uint8_t ndefBuf[1000]; // the size of the emulated tag, size can be any number o
 NdefMessage message;
 int messageSize;
 
-uint8_t uid[3] = {0x12, 0x34, 0x56};      // UID of tag, only 3 bytes
+uint8_t uid[3] = {0x12, 0x34, 0x56}; // UID of tag, only 3 bytes
 
-char imageBase64[] = "Qk2+AAAAAAAAAD4AAAAoAAAAIAAAACAAAAABAAEAAAAAAIAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD///////////AAP//wAD//z/AP/8/wD//P/AP/z/wD/8Pz8P/D8/D/wPAw/8DwMP/AwDM/wMAzP8//8w/P//MPz//zD8//8w/P/8DPz//Az/PwDD/z8Aw/8AAwP/AAMD/wD8zz8A/M8/wAMA/8ADAP//P/P//z/z///////////w==";
-String superMarketName = "Hobby Store";
-String customerName = "Ben Dover";
-String receiptID = "02/07/2023-69420";
+const char imageBase64[] PROGMEM = "Qk2+AAAAAAAAAD4AAAAoAAAAIAAAACAAAAABAAEAAAAAAIAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD///////////AAP//wAD//z/AP/8/wD//P/AP/z/wD/8Pz8P/D8/D/wPAw/8DwMP/AwDM/wMAzP8//8w/P//MPz//zD8//8w/P/8DPz//Az/PwDD/z8Aw/8AAwP/AAMD/wD8zz8A/M8/wAMA/8ADAP//P/P//z/z///////////w==";
+const char superMarketName[] PROGMEM = "Hobby Store";
+const char customerName[] PROGMEM = "Ben Dover";
+const char receiptID[] PROGMEM = "02/07/2023-69420";
 
 // Product entries seperated by slashes (/) and ordered as productName/Qty/unitPrice
-char entries[][41] = {
+const char entries[][41] PROGMEM = {
     "Model Airplane SAAB Draken/1/50000",
     "FlySky Fi6/1/1600"};
 
@@ -36,11 +35,14 @@ void setup()
   message.addTextRecord(combineData().c_str());           // Converting String returned by function to char array and adding as text record
   message.addTextRecord(combineProductEntries().c_str()); // ^^^^
   messageSize = message.getEncodedSize();
-  if (messageSize > sizeof(ndefBuf)) {
+  if (messageSize > sizeof(ndefBuf))
+  {
     Serial.println("ndefBuf is too small");
-    while (1) { }
+    while (1)
+    {
+    }
   }
-  
+
   Serial.print("Ndef encoded message size: ");
   Serial.println(messageSize);
 
@@ -61,9 +63,12 @@ void loop()
   nfc.emulate();
 
   // emulate wih 10 second time out
-  if(!nfc.emulate(10000)){ 
+  if (!nfc.emulate(10000))
+  {
     Serial.print(" Timed out");
-  } else {
+  }
+  else
+  {
     Serial.println("Mobile device found!");
   }
 
@@ -85,7 +90,11 @@ void loop()
 // Function for combing receipt info
 String combineData()
 {
-  String tempString = superMarketName + "#" + customerName + "#" + receiptID;
+  String str1 = superMarketName;
+  String str2 = customerName;
+  String str3 = receiptID;
+
+  String tempString = str1 + "#" + str2 + "#" + str3;
   return tempString;
 }
 
