@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "Arduino\\NFC_Receipt_Writer\\NFC_Receipt_Writer.ino",
+    "port": "COM4"
+}
