@@ -46,7 +46,6 @@ class _ReadTagState extends State<ReadTag> {
     canRead = await NfcManager.instance.isAvailable();
     NfcManager.instance.startSession(
       onDiscovered: (NfcTag tag) async {
-        debugPrint("I tried to scan!");
         await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
