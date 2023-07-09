@@ -4,6 +4,10 @@ import 'package:nfc_manager/nfc_manager.dart';
 import 'package:nfc_receipt_viewer/display_tag.dart';
 import 'data_handler.dart';
 
+/// Widget to read tags
+///
+/// When it has read a tag it will pop the context otherwise it will wait for a
+/// tag and display scanning animation
 class ReadTag extends StatefulWidget {
   final DatabaseHandler dbHandler;
   const ReadTag({Key? myKey, required this.dbHandler}) : super(key: myKey);
@@ -42,6 +46,9 @@ class _ReadTagState extends State<ReadTag> {
     }
   }
 
+  /// Function to read tagsand Display tag data
+  ///
+  /// Takes BuildContext [context] as argument an returns [void]
   void _tagRead(BuildContext context) async {
     canRead = await NfcManager.instance.isAvailable();
     NfcManager.instance.startSession(
