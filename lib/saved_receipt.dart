@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// widget to display pop up of Saved Receipt
 class SavedReceipt extends StatefulWidget {
   const SavedReceipt({super.key});
 
