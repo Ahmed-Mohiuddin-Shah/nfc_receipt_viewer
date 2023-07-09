@@ -7,15 +7,19 @@ import 'package:nfc_receipt_viewer/receipt_class.dart';
 
 import 'data_handler.dart';
 
+/// Our main entry point into program that runs the main app [MyApp]
 void main() {
   runApp(const MyApp());
 }
 
+/// Our main App
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    // Creating a Material App with Theme Data and [MainPage] as its home
     return MaterialApp(
       home: const MainPage(),
       theme: ThemeData(
@@ -55,6 +59,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late DatabaseHandler dbHandler;
 
+  /// Overriding method to Initialize the [DatabaseHandler]
   @override
   void initState() {
     super.initState();
@@ -64,15 +69,16 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  /// Main widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(                                   
         title: const Text('NFC Receipt Viewer'),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(               // Button for Scanning Tag
         onPressed: () async {
-          await showModalBottomSheet(
+          await showModalBottomSheet(                           // Showing pop up for scanning
               context: context,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -80,18 +86,18 @@ class _MainPageState extends State<MainPage> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              builder: (BuildContext context) {
+              builder: (BuildContext context) {                 // Display ReadTag Widget
                 return ReadTag(
                   dbHandler: dbHandler,
                 );
               }).whenComplete(() {
-            NfcManager.instance.stopSession();
+            NfcManager.instance.stopSession();                    // Stop NFC session whrn complete
           });
           setState(() {});
         },
         child: const Icon(Icons.nfc_rounded),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder(                                        // FutureBuilder to handle future events from DatabaseHandler
         future: dbHandler.retrieveReceipts(),
         builder: (BuildContext context, AsyncSnapshot<List<Receipt>> snapshot) {
           if (snapshot.hasData) {
@@ -165,11 +171,11 @@ class _MainPageState extends State<MainPage> {
                           snapshot.data![index].imageBase64,
                         ),
                       ),
-                      onTap: () {
+                      onTap: () {                                               // Display the tag from the DataBase when pressed
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return DisplayTagFromDB(
+                              return DisplayTagFromDB(                          //Passing receipt and DbHandler to DisplayTagFromDB widget
                                 receipt: snapshot.data![index],
                                 dbHandler: dbHandler,
                               );
@@ -185,7 +191,7 @@ class _MainPageState extends State<MainPage> {
               },
             );
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());        // if No data yet then display progress indicator
           }
         },
       ),
