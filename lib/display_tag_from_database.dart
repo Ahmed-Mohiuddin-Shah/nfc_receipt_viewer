@@ -5,23 +5,32 @@ import 'package:flutter/material.dart';
 import 'package:nfc_receipt_viewer/data_handler.dart';
 import 'package:nfc_receipt_viewer/receipt_class.dart';
 
+/// A widget that displays the details of a receipt from the database.
 class DisplayTagFromDB extends StatelessWidget {
-  final Receipt receipt;
-  final DatabaseHandler dbHandler;
+  final Receipt receipt; // Receipt to display
+  final DatabaseHandler dbHandler; // Instance of DatabaseHandler
 
+  /// Constructs a [DisplayTagFromDB] widget.
+  ///
+  /// [receipt] represents the receipt to be displayed.
+  /// [dbHandler] is an instance of [DatabaseHandler] for performing database operations.
   DisplayTagFromDB({Key? myKey, required this.receipt, required this.dbHandler})
       : super(key: myKey);
 
-  final ndefWidgets = <Widget>[];
+  final ndefWidgets = <Widget>[]; // List of widgets to dipay
 
   @override
   Widget build(BuildContext context) {
-    parseResult();
+    parseResult(); // parsing th data or result
     return Scaffold(
+      // retrning scaffold of page
       appBar: AppBar(
         actions: [
+          // actions of AppBar
           IconButton(
+            // Delete button
             onPressed: () {
+              // On pressed action is to create a pop up for confirmation
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
@@ -54,7 +63,7 @@ class DisplayTagFromDB extends StatelessWidget {
                             child: const Text('Delete'),
                             onPressed: () {
                               dbHandler.deleteReceipt(receipt.id!);
-                              
+
                               Navigator.of(context).pop();
                               Navigator.of(context).pop(true);
                             },
@@ -70,16 +79,19 @@ class DisplayTagFromDB extends StatelessWidget {
           )
         ],
         title: FittedBox(
-          child: Text(receipt.receiptID),
+          child: Text(receipt.receiptID), // Displaying Receipt ID in Title bar
         ),
         leading: IconButton(
+          // Back button
           onPressed: () {
+            // On pressed function pops current context
             Navigator.of(context).pop(false);
           },
           icon: const Icon(Icons.arrow_back_ios_rounded),
         ),
       ),
       body: SingleChildScrollView(
+        // body displays widgets in Scroll view
         child: Column(
           children: ndefWidgets,
         ),
@@ -87,58 +99,75 @@ class DisplayTagFromDB extends StatelessWidget {
     );
   }
 
+  /// Parses the receipt details and generates the corresponding widgets.
+  ///
+  /// This method is responsible for parsing the receipt details, such as the
+  /// customer name, receipt ID, image, product entries, and calculating the total.
+  /// It creates and adds the necessary widgets to the [ndefWidgets] list, which
+  /// will be displayed in the UI.
   void parseResult() {
     late TableRow customerNameRow;
     late TableRow receiptIDRow;
 
     ndefWidgets.add(const SizedBox(
       height: 20,
-    ));
+    )); // Add spacer
 
     Uint8List bytesImage;
     bytesImage = const Base64Decoder().convert(receipt.imageBase64);
     ndefWidgets.add(Image.memory(bytesImage));
     ndefWidgets.add(const SizedBox(
       height: 10,
-    ));
+    )); // Adding logo Image
 
     ndefWidgets.add(Text(receipt.superMarketName));
     ndefWidgets.add(const SizedBox(
       height: 20,
-    ));
+    )); // Adding super market name
 
-    customerNameRow = TableRow(children: <Widget>[
-      const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Text("Customer Name: "),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(receipt.customerName),
-      )
-    ]);
+    customerNameRow = TableRow(
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Text("Customer Name: "),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(receipt.customerName),
+        )
+      ],
+    ); // Customer Info Row
 
-    receiptIDRow = TableRow(children: <Widget>[
-      const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Text("Receipt ID: "),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Text(receipt.receiptID),
-      )
-    ]);
-    ndefWidgets.add(Table(
+    receiptIDRow = TableRow(
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Text("Receipt ID: "),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(receipt.receiptID),
+        )
+      ],
+    ); // Receipt Info Row
+
+    ndefWidgets.add(
+      Table(
         border: TableBorder.all(color: Colors.black, width: 2.0),
-        children: <TableRow>[customerNameRow, receiptIDRow]));
+        children: <TableRow>[customerNameRow, receiptIDRow],
+      ),
+    ); // Adding customerNameRow andd receiptIDRow as a Table
 
-    ndefWidgets.add(const SizedBox(
-      height: 20,
-    ));
+    ndefWidgets.add(
+      const SizedBox(
+        height: 20,
+      ),
+    ); // Adding a Spacer
 
-    final rowsList = <DataRow>[];
+    final rowsList = <DataRow>[]; // Creating list of DataRows for DataTable
 
     for (var element in receipt.productEntries.split("#")) {
+      // Looping through product entries and adding them to the rowList as a DataRow
       List<String> productInfo = element.split("/");
       rowsList.add(
         DataRow(
@@ -154,18 +183,22 @@ class DisplayTagFromDB extends StatelessWidget {
         ),
       );
     }
-    ndefWidgets.add(FittedBox(
-      child: DataTable(
-          showCheckboxColumn: true,
-          border: TableBorder.all(),
-          columns: const <DataColumn>[
-            DataColumn(label: Text("Product Name")),
-            DataColumn(label: Text("Qty")),
-            DataColumn(label: Text("Unit Price")),
-            DataColumn(label: Text("Total")),
-          ],
-          rows: rowsList),
-    ));
+
+    ndefWidgets.add(
+      FittedBox(
+        child: DataTable(
+            showCheckboxColumn: true,
+            border: TableBorder.all(),
+            columns: const <DataColumn>[
+              DataColumn(label: Text("Product Name")),
+              DataColumn(label: Text("Qty")),
+              DataColumn(label: Text("Unit Price")),
+              DataColumn(label: Text("Total")),
+            ],
+            rows: rowsList),
+      ),
+    ); // Adding RowList to the DataTable and adding it to widget list
+
     ndefWidgets.add(
       Table(
         border: TableBorder.all(color: Colors.black, width: 2.0),
@@ -185,9 +218,13 @@ class DisplayTagFromDB extends StatelessWidget {
           ),
         ],
       ),
-    );
+    );                      // Adding receipt total to DataTable to widget list
   }
 
+  /// Calculates the total amount from the product entries.
+  ///
+  /// [productEntries] represents the product entries in the receipt.
+  /// Returns the total amount as a [double].
   double getTotalFromProductsInfo(String productEntries) {
     double total = 0;
     for (var element in productEntries.split("#")) {
