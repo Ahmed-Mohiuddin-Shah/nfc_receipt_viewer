@@ -13,24 +13,40 @@ class ReadTag extends StatefulWidget {
 }
 
 class _ReadTagState extends State<ReadTag> {
+  bool canRead = true;
+
   @override
   Widget build(BuildContext context) {
     _tagRead(context);
-    return SizedBox(
-      height: 200,
-      child: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: Container(
-          child:
-              Lottie.asset("images/nfc_animation.json", fit: BoxFit.scaleDown),
+    if (canRead) {
+      return SizedBox(
+        height: 200,
+        child: Padding(
+          padding: const EdgeInsets.all(40.0),
+          child: Container(
+            child: Lottie.asset("images/nfc_animation.json",
+                fit: BoxFit.scaleDown),
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return const Center(
+        child: SizedBox(
+          height: 200,
+          child: Padding(
+            padding: EdgeInsets.all(40.0),
+            child: Text("NFC Not Supported"),
+          ),
+        ),
+      );
+    }
   }
 
-  void _tagRead(BuildContext context) {
+  void _tagRead(BuildContext context) async {
+    canRead = await NfcManager.instance.isAvailable();
     NfcManager.instance.startSession(
       onDiscovered: (NfcTag tag) async {
+        debugPrint("I tried to scan!");
         await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
