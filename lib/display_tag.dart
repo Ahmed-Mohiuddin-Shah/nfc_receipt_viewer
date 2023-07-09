@@ -10,6 +10,11 @@ import 'package:nfc_receipt_viewer/ndef_record.dart';
 import 'package:nfc_receipt_viewer/receipt_class.dart';
 import 'package:nfc_receipt_viewer/saved_receipt.dart';
 
+
+/// Constructs a [DisplayTag] widget.
+///
+/// The [tag] parameter represents the NFC tag to be displayed.
+/// The [dbHandler] parameter is an instance of [DatabaseHandler] for database operations.
 class DisplayTag extends StatefulWidget {
   final NfcTag tag;
   final DatabaseHandler dbHandler;
@@ -34,6 +39,8 @@ class _DisplayTagState extends State<DisplayTag> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Checking if data is valid
     try {
       parseResult();
       receipt = Receipt.getReceipt(logoImage, receiptInfo, productEntries);
@@ -41,7 +48,7 @@ class _DisplayTagState extends State<DisplayTag> {
       isValidData = false;
     }
 
-    if (isValidData) {
+    if (isValidData) {            
       return Scaffold(
         appBar: AppBar(
             title: const Text('NFC Receipt'),
@@ -54,8 +61,8 @@ class _DisplayTagState extends State<DisplayTag> {
               icon: const Icon(Icons.arrow_back_ios_rounded),
             ),
             actions: <Widget>[
-              IconButton(
-                onPressed: () async {
+              IconButton(                           // IconButton for saving receipts
+                onPressed: () async {               // On pressed save the receipts and show saved receipts pop up
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
@@ -81,6 +88,11 @@ class _DisplayTagState extends State<DisplayTag> {
     }
   }
 
+  /// Parses the NDEF records from the NFC tag and generates the corresponding widgets.
+  ///
+  /// This method is responsible for extracting the necessary information from the NDEF records,
+  /// such as the logo image, receipt info, and product entries. It creates and adds the necessary
+  /// widgets to the [ndefWidgets] list, which will be displayed in the UI.
   void parseResult() {
     late TableRow customerNameRow;
     late TableRow receiptIDRow;
@@ -201,6 +213,10 @@ class _DisplayTagState extends State<DisplayTag> {
     );
   }
 
+  /// Calculates the total amount from the product entries.
+  ///
+  /// [productEntries] represents the product entries in the receipt.
+  /// Returns the total amount as a [double].
   double getTotalFromProductsInfo(String productEntries) {
     double total = 0;
     for (var element in productEntries.split("#")) {
