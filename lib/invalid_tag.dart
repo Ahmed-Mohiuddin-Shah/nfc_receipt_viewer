@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Shows popup of invalid tag
 class InvalidTag extends StatelessWidget {
   const InvalidTag({super.key});
 
