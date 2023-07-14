@@ -7,16 +7,16 @@
 MFRC522 mfrc522(CS_PIN, 9); // Create MFRC522 instance
 NfcAdapter nfc = NfcAdapter(&mfrc522); // Create NfcAdapter Instance
 
-char imageBase64[] = "Qk2+AAAAAAAAAD4AAAAoAAAAIAAAACAAAAABAAEAAAAAAIAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD///////////AAP//wAD//z/AP/8/wD//P/AP/z/wD/8Pz8P/D8/D/wPAw/8DwMP/AwDM/wMAzP8//8w/P//MPz//zD8//8w/P/8DPz//Az/PwDD/z8Aw/8AAwP/AAMD/wD8zz8A/M8/wAMA/8ADAP//P/P//z/z///////////w==";
-String superMarketName = "Hobby Store";
-String customerName = "Ben Dover";
-String receiptID = "02/07/2023-69420";
+// char imageBase64[] = "Qk2+AAAAAAAAAD4AAAAoAAAAIAAAACAAAAABAAEAAAAAAIAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD///////////AAP//wAD//z/AP/8/wD//P/AP/z/wD/8Pz8P/D8/D/wPAw/8DwMP/AwDM/wMAzP8//8w/P//MPz//zD8//8w/P/8DPz//Az/PwDD/z8Aw/8AAwP/AAMD/wD8zz8A/M8/wAMA/8ADAP//P/P//z/z///////////w==";
+// String superMarketName = "Hobby Store";
+// String customerName = "Ben Dover";
+// String receiptID = "02/07/2023-69420";
 
-// Product entries seperated by slashes (/) and ordered as productName/Qty/unitPrice
-char entries[][41] = {
-    "Model Airplane SAAD Draken/1/50000",
-    "FlySky Fi6/1/1600"
-    };
+// // Product entries seperated by slashes (/) and ordered as productName/Qty/unitPrice
+// char entries[][41] = {
+//     "Model Airplane SAAD Draken/1/50000",
+//     "FlySky Fi6/1/1600"
+//     };
 
 void setup()
 {
@@ -35,9 +35,9 @@ void loop()
 
     // Adding ndef records
     NdefMessage message = NdefMessage();
-    message.addTextRecord(imageBase64);
-    message.addTextRecord(combineData().c_str());             // Converting String returned by function to char array and adding as text record
-    message.addTextRecord(combineProductEntries().c_str());   // ^^^^
+    message.addTextRecord("Qk2+AAAAAAAAAD4AAAAoAAAAIAAAACAAAAABAAEAAAAAAIAAAADEDgAAxA4AAAAAAAAAAAAAAAAAAP///wD///////////AAP//wAD//z/AP/8/wD//P/AP/z/wD/8Pz8P/D8/D/wPAw/8DwMP/AwDM/wMAzP8//8w/P//MPz//zD8//8w/P/8DPz//Az/PwDD/z8Aw/8AAwP/AAMD/wD8zz8A/M8/wAMA/8ADAP//P/P//z/z///////////w==");
+  message.addTextRecord("Hobby Store#Ben Dover#02/07/2023-69420");
+  message.addTextRecord("Model Airplane SAAB Draken/1/50000#FlySky Fi6/1/1600");   // ^^^^
 
     bool success = nfc.write(message);                        // Writing to nfc card and taking return value to check for successfull read and write
     if (success)
@@ -53,25 +53,25 @@ void loop()
   delay(500);
 }
 
-// Function for combing receipt info
-String combineData()
-{
-  String tempString = superMarketName + "#" + customerName + "#" + receiptID;
-  return tempString;
-}
+// // Function for combing receipt info
+// String combineData()
+// {
+//   String tempString = superMarketName + "#" + customerName + "#" + receiptID;
+//   return tempString;
+// }
 
-// Function for combining product entries by joining them with a "#" seperator
-String combineProductEntries()
-{
-  String tempString = "";
-  int numOfEntries = sizeof(entries) / (sizeof(uint8_t) * sizeof(entries[0]));
-  for (int i = 0; i < numOfEntries; i++)
-  {
-    tempString.concat(entries[i]);
-    if (i < numOfEntries - 1)
-    {
-      tempString.concat("#");
-    }
-  }
-  return tempString;
-}
+// // Function for combining product entries by joining them with a "#" seperator
+// String combineProductEntries()
+// {
+//   String tempString = "";
+//   int numOfEntries = sizeof(entries) / (sizeof(uint8_t) * sizeof(entries[0]));
+//   for (int i = 0; i < numOfEntries; i++)
+//   {
+//     tempString.concat(entries[i]);
+//     if (i < numOfEntries - 1)
+//     {
+//       tempString.concat("#");
+//     }
+//   }
+//   return tempString;
+// }
