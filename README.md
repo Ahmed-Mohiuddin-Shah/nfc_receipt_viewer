@@ -22,7 +22,7 @@ To run the NFC Receipt Viewer app, make sure you have the following installed:
 1. Clone the repository:
 
 ```shell
-git clone https://github.com/your-username/nfc-receipt-viewer.git
+git clone https://github.com/Ahmed-Mohiuddin-Shah/nfc-receipt-viewer.git
 ```
 
 Navigate to the project directory:
